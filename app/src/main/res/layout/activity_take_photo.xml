@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.public_dev.movil_transf.take_photo">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnCapturePicture"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="10dp"
+                android:background="@color/Chartreuse"
+                android:text="TOMAR FOTO" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="7dp" />
+
+            <Button
+                android:id="@+id/btn_deletephoto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:text="BORRAR FOTO" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="7dp" />
+
+            <Button
+                android:id="@+id/btn_openphotos"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:text="VER CARPETA" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="7dp" />
+
+            <Button
+                android:id="@+id/btnSalir"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@color/Coral"
+                android:text="SALIR" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="7dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Preview"
+            android:textSize="15dp" />
+
+        <!-- To display picture taken -->
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtUriPath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="." />
+
+        <TextView
+            android:id="@+id/txtRealPath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=".." />
+
+        <TextView
+            android:id="@+id/txtSDK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="..." />
+
+        <!-- To preview video recorded -->
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
