@@ -1,15 +1,20 @@
 package com.public_dev.movil_transf;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -30,6 +35,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Locale;
@@ -54,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context oContext;
     private Uri oFileUri;
     private Bitmap oBitmap;
+    private File file;
 
     public static final String UPLOAD_URL = "http://201.218.103.202/flam/upload.php";
 
@@ -80,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
         obtn_Send = (Button) findViewById(R.id.oBtn_Send);
         obtn_Exit = (Button) findViewById(R.id.oBtn_Exit);
 
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            obtn_Photo.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        }
 
         this.obtn_Photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +133,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                obtn_Photo.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -127,6 +150,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if the result is capturing Image
+
+        if ((requestCode == 100) && (resultCode == RESULT_OK)) {
+            oimage.setImageURI(oFileUri);
+
+        }
+
         if (requestCode == PICK_OPTION && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             try {
@@ -228,6 +257,29 @@ public class MainActivity extends AppCompatActivity {
 
         UploadImage ui = new UploadImage();
         ui.execute(oBitmap);
+    }
+
+    private static File getOutputMediaFile(){
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "CameraDemo");
+
+        if (!mediaStorageDir.exists()){
+            if (!mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
+    }
+
+    public void takePicture(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        oFileUri = Uri.fromFile(getOutputMediaFile());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, oFileUri);
+
+        startActivityForResult(intent, 100);
     }
 
 }

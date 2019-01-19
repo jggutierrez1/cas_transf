@@ -169,6 +169,7 @@ public class Global {
     public static int REQUEST_PRINT = 9;
     public static int REQUEST_PRN_CAP = 10;
     public static int REQUEST_CAMERA = 1;
+    public static int REQUEST_TAKE_PHOTO = 1;
     public static int MR_Dialog_Resp = 0;
     public static String cFileLogPathDest = "";
     public static String cFileRepPathDestC = "";
@@ -2052,5 +2053,6 @@ public class Global {
             oGen_Cursor.close();
         }
     }
+
 
 }
